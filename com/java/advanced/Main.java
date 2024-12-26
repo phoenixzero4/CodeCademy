@@ -1,23 +1,24 @@
 package com.java.advanced;
 
-public class Main implements Runnable{
-	private final long limit;
-	
-	public Main(long limit) {
-		this.limit = limit;
-	}
-	public static void main(String[] args) {
-		int limit = 10;
-		Main thread = new Main(10);
-		thread.run();
-	}
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-	@Override
-	public void run() {
-		int sum = 0;
-		for(int i = 1; i <= limit; i++) {
-			sum += i;
+public class Main{
+
+	private static final int N = 10;
+	
+	public static void main(String[] args) throws InterruptedException{
+		
+		ExecutorService executor =  Executors.newFixedThreadPool(N);
+		
+		for(int i = 0; i <= 500; i++) {
+			RunnableTask r = new RunnableTask(1000000000L + i);
+			executor.execute(r);
 		}
-		System.out.println(sum);
+		
+		executor.shutdown();
+		executor.awaitTermination(30,  TimeUnit.SECONDS);
+		System.out.println("Finished all threads");
 	}
 }
