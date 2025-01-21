@@ -17,7 +17,7 @@ public class ParallelStreams {
 		for(String s: line) {
 			System.out.println(s);
 		}
-		
+		System.out.println();
 		line.parallelStream().forEach(System.out::println);
 		
 
